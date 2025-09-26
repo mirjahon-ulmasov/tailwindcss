@@ -3,6 +3,7 @@ import type { UserDTO, UserList } from "../types/user";
 import UserModal from "./UserModal";
 
 export default function UserList({ search }: { search: string }) {
+
     const [users, setUsers] = useState<UserList>([]);
     const [selectedUser, setSelectedUser] = useState<UserDTO | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,7 +15,7 @@ export default function UserList({ search }: { search: string }) {
 
     const closeUserModal = () => {
         setIsModalOpen(false);
-        setSelectedUser(null); 
+        setSelectedUser(null);
     };
 
     useEffect(() => {
@@ -41,9 +42,9 @@ export default function UserList({ search }: { search: string }) {
             return users;
         }
 
-        return users.filter(user =>
-            user.name.toLowerCase().includes(lowerCaseSearch) ||
-            user.email.toLowerCase().includes(lowerCaseSearch)
+        return users.filter(
+            user =>
+                user.name.toLowerCase().includes(lowerCaseSearch) || user.email.toLowerCase().includes(lowerCaseSearch)
         );
     }, [search, users]);
 
@@ -51,32 +52,46 @@ export default function UserList({ search }: { search: string }) {
         <Fragment>
             <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
                 <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                    <thead className="bg-gray-50 dark:bg-gray-400">
                         <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" colSpan={2}>Company</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Name
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Email
+                            </th>
+                            <th
+                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                colSpan={2}
+                            >
+                                Company
+                            </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {filteredUsers.length ? (
                             filteredUsers.map((user, index) => (
-                                <tr 
-                                    key={user.id} 
-                                    className={index % 2 === 0 ? 'bg-white hover:bg-gray-50' : 'bg-gray-50 hover:bg-gray-100'}
+                                <tr
+                                    key={user.id}
+                                    className={
+                                        index % 2 === 0 ? "bg-white hover:bg-gray-50" : "bg-gray-50 hover:bg-gray-100"
+                                    }
                                 >
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                         {user.name}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 truncate max-w-xs" title={user.email}>
+                                    <td
+                                        className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 truncate max-w-xs"
+                                        title={user.email}
+                                    >
                                         {user.email}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         {user.company.name}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button 
-                                            onClick={() => openUserModal(user)} 
+                                        <button
+                                            onClick={() => openUserModal(user)}
                                             className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out"
                                         >
                                             More
@@ -94,15 +109,8 @@ export default function UserList({ search }: { search: string }) {
                     </tbody>
                 </table>
             </div>
-            
-            {selectedUser && (
-                 <UserModal 
-                    user={selectedUser} 
-                    isOpen={isModalOpen} 
-                    close={closeUserModal} 
-                />
-            )}
-           
+
+            {selectedUser && <UserModal user={selectedUser} isOpen={isModalOpen} close={closeUserModal} />}
         </Fragment>
     );
 }

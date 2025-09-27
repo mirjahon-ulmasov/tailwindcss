@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react"
-
-interface Product {
-    id: number
-    name: string
-    description: string
-}
+import type { Product } from "../types/product"
 
 interface UseProductResult {
     data: Product[]
